@@ -1,2 +1,11 @@
-# OpenScopeAPI-Example-Contact_Export
-OpenScope API Beispiel - Exportieren von Kontakten
+# OpenScope API Beispiel: Export von Kontakten
+
+## Vorbereitung
+
+- testaccount anlegen etc.-
+
+## Wo finde ich was
+
+- ...
+
+
