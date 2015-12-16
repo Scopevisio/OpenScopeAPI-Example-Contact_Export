@@ -16,12 +16,12 @@ java com.scopevisio.openscope.HelloWorld 2000000 user@example.com password
 
 So werden die Webdienste auf die Standard Produktion-URL (https://appload.scopevisio.com) aufgerufen.
 
+#### Aufruf mit zusatzlichen VM-Argumenten:
+
 Sie können nach Wunsch zwei VM-Argumente zusätzlich nutzen, nämlich:
 
 - com.scopevisio.openscope.verbose (Valider Wert is ausschließlich "verbose")
 - com.scopevisio.openscope.webservice.url (Es wird ausschließlich für interne Zwecke benutzt)
-
-#### Aufruf mit zusatzlichen VM-Argumenten:
 
 java -Dcom.scopevisio.openscope.verbose=verbose -Dcom.scopevisio.openscope.webservice.url=http://test.internal.domain:65535 com.scopevisio.openscope.HelloWorld 2000000 user@example.com password
 
