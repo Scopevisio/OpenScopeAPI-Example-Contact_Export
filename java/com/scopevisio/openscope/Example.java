@@ -1,4 +1,3 @@
-package com.scopevisio.openscope;
 /**
 Copyright (c) 2015, Scopevisio AG
 All rights reserved.
@@ -28,6 +27,7 @@ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWIS
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
  */
+package com.scopevisio.openscope;
 
 import java.util.StringTokenizer;
 
@@ -93,7 +93,7 @@ public class Example {
 			Utils.verbose(Utils.soapMessageToString(request));
 
 			// post SOAP
-			PostResult result = new Utils().postSoap(url, request);
+			PostResult result = Utils.postSoap(url, request);
 			if (result.getResponseCode() != 200)
 				throw new Exception("Unexpected response, HTTP Status Code: " + result.getResponseCode()
 						+ ", Reason-Phrase: " + result.getReply());
@@ -110,7 +110,7 @@ public class Example {
 		}
 
 		// print out what we've found
-		System.out.println("\nFound organization: " + organisation + "\n");
+		System.out.println("Found organization: " + organisation);
 
 		/*
 		 * Step 2: Call API method Contact.exportExtendedCSV to obtain contacts in CSV-format 
@@ -149,7 +149,7 @@ public class Example {
 			Utils.verbose(Utils.soapMessageToString(request));
 
 			// post SOAP
-			PostResult result = new Utils().postSoap(url, request);
+			PostResult result = Utils.postSoap(url, request);
 			if (result.getResponseCode() != 200)
 				throw new Exception("Unexpected response, HTTP Status Code: " + result.getResponseCode()
 						+ ",Reason-Phrase: " + result.getReply());
@@ -164,8 +164,6 @@ public class Example {
 		}
 
 		// print out what we've found
-		System.out.println("\nFound contacts:\n\n" + contacts);
-
+		System.out.println("Found contacts:\n\n" + contacts);
 	}
-
 }

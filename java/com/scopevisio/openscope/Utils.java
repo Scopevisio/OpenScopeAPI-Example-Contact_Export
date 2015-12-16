@@ -1,5 +1,3 @@
-package com.scopevisio.openscope;
-
 /**
 Copyright (c) 2015, Scopevisio AG
 All rights reserved.
@@ -29,6 +27,8 @@ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWIS
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
  */
+package com.scopevisio.openscope;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,13 +41,31 @@ import java.net.URLDecoder;
 
 import javax.xml.soap.SOAPMessage;
 
-public class Utils {
+/**
+ * Utilities to simplify things.
+ * 
+ * @author mfg8876
+ * @author BastiTee
+ *
+ */
+public final class Utils {
+
+	private Utils() {
+		// Utiltity class
+	}
 
 	public static void verbose(String message) {
 		if (System.getProperty("com.scopevisio.openscope.verbose", "").equalsIgnoreCase("verbose"))
 			System.err.println(message);
 	}
 
+	/**
+	 * Converts a {@link SOAPMessage} to it's {@link String} representation 
+	 * 
+	 * @param message The {@link SOAPMessage} to be converted. 
+	 * @return
+	 * It's {@link String} represenation 
+	 */
 	public static String soapMessageToString(SOAPMessage message) {
 		String r = null;
 		try {
@@ -85,7 +103,16 @@ public class Utils {
 		}
 	}
 
-	public PostResult postSoap(String url, SOAPMessage soapMessage) throws Exception {
+	/**
+	 * Posts a {@link SOAPMessage} to the given URL 
+	 * 
+	 * @param url The target webservice URL 
+	 * @param soapMessage The {@link SOAPMessage} to be send 
+	 * @return
+	 * The {@link PostResult} for the operation
+	 * @throws Exception
+	 */
+	public static PostResult postSoap(String url, SOAPMessage soapMessage) throws Exception {
 		String[] headers = new String[] { "SOAPAction", "", "Cache-Control", "no-cache", "Content-Type",
 				"text/xml; charset=utf-8" };
 		// Send data via post, very simple ;-)
@@ -121,24 +148,28 @@ public class Utils {
 
 		// Get the response
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		copy(responseInputStream, baos, 8192);
+		copy(responseInputStream, baos);
 		String s = baos.toString();
 
 		PostResult postResult = new PostResult(s, HttpURLConnection.HTTP_OK);
-		System.err.println("post-soap to \"" + url + "\" completed with status:=" + postResult.responseCode);
+		verbose("post-soap to \"" + url + "\" completed with status:=" + postResult.responseCode);
 		return postResult;
 	}
 
-	public static int copy(InputStream input, OutputStream output, int bufferSize) throws IOException {
+	/**
+	 * Copies an {@link InputStream} to an {@link OutputStream}
+	 * 
+	 * @param input The source {@link InputStream}
+	 * @param output The target {@link OutputStream}
+	 * @throws IOException 
+	 */
+	public static void copy(InputStream input, OutputStream output) throws IOException {
 		try {
-			byte[] buffer = new byte[bufferSize];
-			int count = 0;
+			byte[] buffer = new byte[8192];
 			int bytesRead = 0;
 			while ((bytesRead = input.read(buffer)) != -1) {
 				output.write(buffer, 0, bytesRead);
-				count += bytesRead;
 			}
-			return count;
 		} finally {
 			try {
 				input.close();
@@ -151,6 +182,13 @@ public class Utils {
 		}
 	}
 
+	/**
+	 * Append a value to first position in an array of values 
+	 * @param value The value to be inserted 
+	 * @param values The array of values 
+	 * @return
+	 * The new array.
+	 */
 	@SuppressWarnings("unchecked")
 	public static <E> E[] prepend(E value, E[] values) {
 		E[] array = (E[]) Array.newInstance(value.getClass(), values.length + 1);
