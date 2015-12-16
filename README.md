@@ -1,47 +1,18 @@
 ## OpenScope API Beispiel: Export von Kontakten
 
-### Erforderliche Argumente
+Dieses OpenScope API Beispiel demonstriert den Abruf von Kontaktdaten aus Ihrer Scopevisio Instanz. 
+Dazu wird zuerst die API-Funktion **accounting.GetOrganisations** aufgerufen, um die vorhanden Gesellschaften abzurufen. Eine Ihrer eigenen Gesellschaften wird der vorinstallierten Demo-Gesellschaft bevorzugt. Anschließend wird die API-Funktion **Contact.exportExtendedCSV** aufgerufen. Damit werden alle Kontakte abgerufen, die während den letzen 100 Tagen erstellt wurden.
 
-- Kundennummer (1)
-- Benutzername
-- Kennwort
+Dieses Beispiel wurde in Java, Bash und für das Web bereitgestellt. Die entsprehenden Unterordner enthalten jeweils eine eigene Dokumentation für die Anwendung. 
 
-### Was macht dieses Beispiel? 
+### Erforderliche Daten
 
-- Organisation laden
-- Alle Kontakte der letzten 100 Tage laden
-
-### Vorbereitung
-
-- Scopevisio Account / Testinstanz anlegen 
-
-### Wo finde ich was
-
-- Für Java, gehe nach Java / Readme.
-...
+- Einen [Scopevisio-Zugang](https://www.scopevisio.com/anwendungen/registrieren)
+- Ihre [Kundennummer](https://www.scopevisio.com/help/de/CRM/Welche_Kundennummer)
+- Scopevisio Benutzername bzw. E-Mail-Adresse
+- Scopevisio Kennwort
 
 ### Relevante API-Dokumentation
 
-https://www.scopevisio.com/help/de/API/Contact_Export 
-
-### Ausführungsschritte
-
-1. Der Webdienst **accounting.GetOrganisations** wird aufgerufen, um die vorhanden Gesellschaften zu abrufen. Eine normale Gesellschaft vor der Demo Gesellschaft wird bevorzugt.
-
-2. Der Webdienst **Contact.exportExtendedCSV** wird aufgerufen. So werden alle Kontakte abgerufen, die während den letzen 100 Tagen erstellt würden.
-
-
-### API
-
-accounting.GetOrganisations (Es besteht gegenwärtig keine entsprechende API-Seite)
-
-[Contact.exportExtendedCSV](https://www.scopevisio.com/help/de/API/Contact_Export)
-
-
-#### Fußnoten
-
-(1) Sie können Ihre Kundennummer herausfinden, wenn Sie z.B. bei scopevisio.com sich einloggen und die Seite [Meine Downloads](https://www.scopevisio.com/lounge) besuchen.
-
- 
-
-
+- [API-Referenz](https://www.scopevisio.com/help/de/API/API_Reference)
+- [Export von Kontakten](https://www.scopevisio.com/help/de/API/Contact_Export)
