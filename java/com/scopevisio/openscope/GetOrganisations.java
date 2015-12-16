@@ -29,16 +29,14 @@ POSSIBILITY OF SUCH DAMAGE.
  */
 package com.scopevisio.openscope;
 
+import java.util.StringTokenizer;
+
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPMessage;
 
-import org.json.JSONArray;
-
-import com.scopevisio.openscope.util.SOAPUtil;
-import com.scopevisio.openscope.util.URLPost;
-import com.scopevisio.openscope.util.URLPost.PostResult;
+import com.scopevisio.openscope.Utils.PostResult;
 
 /**
  * 
@@ -72,10 +70,10 @@ public class GetOrganisations {
         authnElement.addChildElement("pass").setTextContent(pass);
 
         if (verbose)
-            System.err.println(SOAPUtil.indent(SOAPUtil.toString(request)));
+            System.err.println(Utils.soapMessageToString(request));
 
         // post SOAP
-        PostResult result = new URLPost().postSoap(url, request);
+        PostResult result = new Utils().postSoap(url, request);
         if (result.getResponseCode() != 200)
         throw new Exception("Unexpected response, HTTP Status Code: " + result.getResponseCode()
                     + ", Reason-Phrase: " + result.getReply());
@@ -85,20 +83,14 @@ public class GetOrganisations {
         
         return reply;
     }
-
+  
     static String getFirstOrganisation(String reply) throws Exception {
-        JSONArray array = new JSONArray(reply);
-        if (array.length() == 0 || array.optString(0).isEmpty())
-            throw new Exception("No organisation is available");
-        if (array.length() == 1)
-            return array.getString(0);
-        //Pick the first non-demo organisation
-        for(int idx = 0, len = array.length(); idx < len; idx++) {
-            String org = array.optString(idx);
-            if (!"Scopevisio Demo AG".equals(org))
-                return org;
-        }
-        return array.getString(0);
+
+    	// Here one should probably insert a real JSON parser    	
+    	reply = reply.replaceAll("[\\[\\]]", "");
+    	StringTokenizer stringTokenizer = new StringTokenizer(reply, ",");
+    	return stringTokenizer.nextToken().replaceAll("\"", "");
+
     }
 
     public static void main(String[] args) {

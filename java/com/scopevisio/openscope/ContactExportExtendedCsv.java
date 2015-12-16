@@ -34,9 +34,7 @@ import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPMessage;
 
-import com.scopevisio.openscope.util.SOAPUtil;
-import com.scopevisio.openscope.util.URLPost;
-import com.scopevisio.openscope.util.URLPost.PostResult;
+import com.scopevisio.openscope.Utils.PostResult;
 
 /**
  * 
@@ -81,10 +79,10 @@ public class ContactExportExtendedCsv {
         configElement.addChildElement("createdSinceTimestamp").setTextContent(Long.toString(hundredDaysAgo));
         
         if (verbose)
-            System.err.println(SOAPUtil.indent(SOAPUtil.toString(request)));
+            System.err.println(Utils.soapMessageToString(request));
 
         // post SOAP
-        PostResult result = new URLPost().postSoap(url, request);
+        PostResult result = new Utils().postSoap(url, request);
         if (result.getResponseCode() != 200)
             throw new Exception("Unexpected response, HTTP Status Code: " + result.getResponseCode()
                     + ",Reason-Phrase: " + result.getReply());

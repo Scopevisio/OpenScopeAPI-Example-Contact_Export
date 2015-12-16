@@ -27,17 +27,44 @@ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWIS
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
  */
-package com.scopevisio.openscope.util;
+package com.scopevisio.openscope;
 
 import java.lang.reflect.Array;
 
 /**
  * 
  * @author mfg8876
+ * @author BastiTee
  *
  */
-public class Util {
-
+public class Example {
+    
+    public static final String DEFAULT_URL = "https://appload.scopevisio.com";
+    
+    public static void main(String[] args) {
+        if (args.length != 3) {
+            System.err.println("Die Argumentenliste muss von genau 3 Elementen bestehen.");
+            System.err.println("Jedes Element, das Leerraum enthält, muss durch Anführungszeichen eingeschlossen sein.");
+            System.err.println("Any element containing whitespace must be quoted");
+            System.err.println("[Kunde] [Benutzer] [Kennwort]");
+            System.err.println("Kunde entspricht der veröffentlichen Kundennummer bei Scopevisio");
+            System.err.println("Beispiel zur Argumentenliste");
+            System.err.println("2000000 user@example.com password");
+            return;
+        }
+        String url = System.getProperty("com.scopevisio.openscope.webservice.url", DEFAULT_URL);
+        try {
+        	String organisation = GetOrganisations.getFirstOrganisation(GetOrganisations.getOrganisations(prepend(url, args)));
+            String soapReply = ContactExportExtendedCsv.getContacts(prepend(url, prepend(organisation, args)));
+            System.out.println("Contacts created within the last 100 days");
+            System.out.println("=========================================");
+            System.out.println(soapReply);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
     @SuppressWarnings("unchecked")
     public static <E> E[] prepend(E value, E[] values) {
         E[] array = (E[]) Array.newInstance(value.getClass(), values.length + 1);
@@ -45,4 +72,5 @@ public class Util {
         System.arraycopy(values, 0, array, 1, values.length);
         return array;
     }
+
 }
