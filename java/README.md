@@ -4,7 +4,8 @@ Voraussetzung für die Ausführung ist ein JDK ab Version 6.
 
 ### Aufruf des Code-Beispiels
 
-`java com.scopevisio.openscope.Example 2000000 user@example.com password`
+- Kompilieren `javac com/scopevisio/openscope/*.java`
+- Ausführen `java com.scopevisio.openscope.Example 2000000 user@example.com password`
 
 #### Zusätzliche VM-Argumente:
 

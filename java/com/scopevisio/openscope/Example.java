@@ -41,10 +41,6 @@ import com.scopevisio.openscope.Utils.PostResult;
 /**
  * This class demonstrates how to obtain a semicolon-separated list of contacts that were created during the 
  * last 100 days. Refer to README.md on specific information on the single processing steps. 
- * 
- * @author mfg8876
- * @author BastiTee
- *
  */
 public class Example {
 

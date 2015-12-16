@@ -43,10 +43,6 @@ import javax.xml.soap.SOAPMessage;
 
 /**
  * Utilities to simplify things.
- * 
- * @author mfg8876
- * @author BastiTee
- *
  */
 public final class Utils {
 
