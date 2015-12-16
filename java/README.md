@@ -28,9 +28,9 @@ java -Dcom.scopevisio.openscope.verbose=verbose -Dcom.scopevisio.openscope.webse
 
 ### Ausführungsschritte
 
-1. Der Webdienst "accounting.GetOrganisations" wird aufgerufen, um die vorhanden Gesellschaften zu abrufen. Eine normale Gesellschaft vor der Demo Gesellschaft wird bevorzugt.
+1. Der Webdienst **accounting.GetOrganisations** wird aufgerufen, um die vorhanden Gesellschaften zu abrufen. Eine normale Gesellschaft vor der Demo Gesellschaft wird bevorzugt.
 
-2. Der Webdienst "Contact.exportExtendedCSV" wird aufgerufen. So werden alle Kontakte abgerufen, die während den letzen 100 Tagen erstellt würden.
+2. Der Webdienst **Contact.exportExtendedCSV** wird aufgerufen. So werden alle Kontakte abgerufen, die während den letzen 100 Tagen erstellt würden.
 
 
 ### API
