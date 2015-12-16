@@ -10,7 +10,7 @@
 
 ### Aufruf des Code-Beispiels
 
-Einfacher Aufruf:
+#### Einfacher Aufruf:
 
 java com.scopevisio.openscope.HelloWorld 2000000 user@example.com password
 
@@ -21,7 +21,7 @@ Sie können nach Wunsch zwei VM-Argumente zusätzlich nutzen, nämlich:
 - com.scopevisio.openscope.verbose (Valider Wert is ausschließlich "verbose")
 - com.scopevisio.openscope.webservice.url (Es wird ausschließlich für interne Zwecke benutzt)
 
-Aufruf mit zusatzlichen VM-Argumenten:
+#### Aufruf mit zusatzlichen VM-Argumenten:
 
 java -Dcom.scopevisio.openscope.verbose=verbose -Dcom.scopevisio.openscope.webservice.url=http://test.internal.domain:65535 com.scopevisio.openscope.HelloWorld 2000000 user@example.com password
 
@@ -36,6 +36,7 @@ java -Dcom.scopevisio.openscope.verbose=verbose -Dcom.scopevisio.openscope.webse
 ### API
 
 accounting.GetOrganisations (Es besteht gegenwärtig keine entsprechende API-Seite)
+
 [Contact.exportExtendedCSV](https://www.scopevisio.com/help/de/API/Contact_Export)
 
 
