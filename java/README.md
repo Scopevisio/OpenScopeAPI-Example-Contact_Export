@@ -1,6 +1,6 @@
 ## Java-Beispiel
 
-Voraussetzung für die Ausführung ist ein JDK ab Version 6.
+Voraussetzung für die Ausführung ist ein JDK ab Version 6. Die Implementierung des Java-Beispiels ist in der `Example.java` selbst dokumentiert. 
 
 ### Aufruf des Code-Beispiels
 
@@ -13,7 +13,6 @@ Voraussetzung für die Ausführung ist ein JDK ab Version 6.
 - com.scopevisio.openscope.webservice.url (ausschließlich für interne Zwecke)
 
 Beispielaufruf:
-
 ```
 java
   -Dcom.scopevisio.openscope.verbose=verbose
