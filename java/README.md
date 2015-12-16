@@ -14,7 +14,7 @@
 
 `java com.scopevisio.openscope.HelloWorld 2000000 user@example.com password`
 
-So werden die Webdienste auf die Standard Produktion-URL (https://appload.scopevisio.com) aufgerufen.
+So werden die Webdienste auf die Standard Produktion-URL `https://appload.scopevisio.com` aufgerufen.
 
 #### Aufruf mit zusatzlichen VM-Argumenten:
 
