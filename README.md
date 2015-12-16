@@ -1,3 +1,5 @@
+![Scopevisio-Logo](https://www.scopevisio.com/sites/all/themes/scopevisio/images/scopevisio_logo.png)
+
 ## OpenScope API Beispiel: Export von Kontakten
 
 Dieses OpenScope API Beispiel demonstriert den Abruf von Kontaktdaten aus Ihrer Scopevisio Instanz. 
