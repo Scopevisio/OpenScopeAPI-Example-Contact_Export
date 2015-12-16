@@ -1,3 +1,4 @@
+package com.scopevisio.openscope;
 /**
 Copyright (c) 2015, Scopevisio AG
 All rights reserved.
@@ -27,50 +28,144 @@ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWIS
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
  */
-package com.scopevisio.openscope;
 
-import java.lang.reflect.Array;
+import java.util.StringTokenizer;
+
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPElement;
+import javax.xml.soap.SOAPMessage;
+
+import com.scopevisio.openscope.Utils.PostResult;
 
 /**
+ * This class demonstrates how to obtain a semicolon-separated list of contacts that were created during the 
+ * last 100 days. Refer to README.md on specific information on the single processing steps. 
  * 
  * @author mfg8876
  * @author BastiTee
  *
  */
 public class Example {
-    
-    public static final String DEFAULT_URL = "https://appload.scopevisio.com";
-    
-    public static void main(String[] args) {
-        if (args.length != 3) {
-            System.err.println("Die Argumentenliste muss von genau 3 Elementen bestehen.");
-            System.err.println("Jedes Element, das Leerraum enthält, muss durch Anführungszeichen eingeschlossen sein.");
-            System.err.println("Any element containing whitespace must be quoted");
-            System.err.println("[Kunde] [Benutzer] [Kennwort]");
-            System.err.println("Kunde entspricht der veröffentlichen Kundennummer bei Scopevisio");
-            System.err.println("Beispiel zur Argumentenliste");
-            System.err.println("2000000 user@example.com password");
-            return;
-        }
-        String url = System.getProperty("com.scopevisio.openscope.webservice.url", DEFAULT_URL);
-        try {
-        	String organisation = GetOrganisations.getFirstOrganisation(GetOrganisations.getOrganisations(prepend(url, args)));
-            String soapReply = ContactExportExtendedCsv.getContacts(prepend(url, prepend(organisation, args)));
-            System.out.println("Contacts created within the last 100 days");
-            System.out.println("=========================================");
-            System.out.println(soapReply);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-    }
-    
-    @SuppressWarnings("unchecked")
-    public static <E> E[] prepend(E value, E[] values) {
-        E[] array = (E[]) Array.newInstance(value.getClass(), values.length + 1);
-        array[0] = value;
-        System.arraycopy(values, 0, array, 1, values.length);
-        return array;
-    }
+
+	public static final String DEFAULT_URL = System.getProperty("com.scopevisio.openscope.webservice.url",
+			"https://appload.scopevisio.com");
+
+	public static void main(String[] args) throws Exception {
+
+		// parse the command line
+		if (args.length != 3) {
+			System.err.println("USAGE: java com.scopevisio.openscope.Example [customerid] [username] [password]");
+			System.err.println();
+			System.err.println(" [customerid] - Public scopevisio customer ID, e.g., 2000000.");
+			System.err.println(" [username]   - Login username, e.g., user@example.com");
+			System.err.println(" [password]   - Login password, e.g., 'password'");
+			return;
+		}
+
+		/*
+		 * Step 1: Call API method accounting.GetOrganisations to obtain one of your organizations. 
+		 */
+		String organisation = null;
+		{
+			Utils.verbose("Retrieving list of organisations");
+			Utils.verbose("================================");
+
+			// gather mandatory data
+			String path = "/api/soap/accounting/accounting.GetOrganisations";
+			String url = DEFAULT_URL.replaceAll("/+$", "") + path;
+			String customer = args[0];
+			String user = args[1];
+			String pass = args[2];
+
+			// prepare SOAP
+			MessageFactory mf = MessageFactory.newInstance();
+			SOAPMessage request = mf.createMessage();
+			SOAPBody body = request.getSOAPBody();
+			SOAPElement requestElement = body.addChildElement("req", "ns1", "http://www.scopevisio.com/");
+
+			// authorization tag
+			SOAPElement authnElement = requestElement.addChildElement("authn");
+			authnElement.addChildElement("customer").setTextContent(customer);
+			authnElement.addChildElement("user").setTextContent(user);
+			authnElement.addChildElement("pass").setTextContent(pass);
+
+			Utils.verbose(Utils.soapMessageToString(request));
+
+			// post SOAP
+			PostResult result = new Utils().postSoap(url, request);
+			if (result.getResponseCode() != 200)
+				throw new Exception("Unexpected response, HTTP Status Code: " + result.getResponseCode()
+						+ ", Reason-Phrase: " + result.getReply());
+
+			// extract reply
+			String reply = result.getReply();
+			Utils.verbose("responseCode: " + result.getResponseCode() + ", reply: " + reply);
+
+			// Here you should later probably insert a real JSON parser
+			reply = reply.replaceAll("[\\[\\]]", "");
+			StringTokenizer stringTokenizer = new StringTokenizer(reply, ",");
+			organisation = stringTokenizer.nextToken().replaceAll("\"", "");
+
+		}
+
+		// print out what we've found
+		System.out.println("\nFound organization: " + organisation + "\n");
+
+		/*
+		 * Step 2: Call API method Contact.exportExtendedCSV to obtain contacts in CSV-format 
+		 */
+		String contacts = null;
+		{
+			// gather mandatory data
+			String path = "/api/soap/contact/Contact.exportExtendedCSV";
+			String url = DEFAULT_URL.replaceAll("/+$", "") + path;
+			String customer = args[0];
+			String user = args[1];
+			String pass = args[2];
+			String language = "de_DE";
+
+			// prepare SOAP
+			MessageFactory mf = MessageFactory.newInstance();
+			SOAPMessage request = mf.createMessage();
+			SOAPBody body = request.getSOAPBody();
+			SOAPElement requestElement = body.addChildElement("req", "ns1", "http://www.scopevisio.com/");
+
+			// authorization tag
+			SOAPElement authnElement = requestElement.addChildElement("authn");
+			authnElement.addChildElement("customer").setTextContent(customer);
+			authnElement.addChildElement("user").setTextContent(user);
+			authnElement.addChildElement("pass").setTextContent(pass);
+			authnElement.addChildElement("language").setTextContent(language);
+			authnElement.addChildElement("organisation").setTextContent(organisation);
+			SOAPElement req = (SOAPElement) body.getChildElements().next();
+
+			// args/data tag
+			SOAPElement configElement = req.addChildElement("args");
+			long hundredDaysAgo = System.currentTimeMillis();
+			hundredDaysAgo -= 100 * 24 * 60 * 60 * 1000L;
+			configElement.addChildElement("createdSinceTimestamp").setTextContent(Long.toString(hundredDaysAgo));
+
+			Utils.verbose(Utils.soapMessageToString(request));
+
+			// post SOAP
+			PostResult result = new Utils().postSoap(url, request);
+			if (result.getResponseCode() != 200)
+				throw new Exception("Unexpected response, HTTP Status Code: " + result.getResponseCode()
+						+ ",Reason-Phrase: " + result.getReply());
+
+			// extract reply
+			String reply = result.getReply();
+			Utils.verbose("responseCode: " + result.getResponseCode() + ", reply: " + reply);
+
+			// extract the CSV-data from the response envelope (later you could do this with a SOAP parser)
+			contacts = reply.replaceAll(".*<data>", "").replaceAll("</data>.*", "");
+
+		}
+
+		// print out what we've found
+		System.out.println("\nFound contacts:\n\n" + contacts);
+
+	}
 
 }

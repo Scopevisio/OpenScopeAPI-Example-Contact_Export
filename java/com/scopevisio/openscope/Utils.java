@@ -1,3 +1,5 @@
+package com.scopevisio.openscope;
+
 /**
 Copyright (c) 2015, Scopevisio AG
 All rights reserved.
@@ -27,12 +29,11 @@ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWIS
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
  */
-package com.scopevisio.openscope;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -41,6 +42,11 @@ import java.net.URLDecoder;
 import javax.xml.soap.SOAPMessage;
 
 public class Utils {
+
+	public static void verbose(String message) {
+		if (System.getProperty("com.scopevisio.openscope.verbose", "").equalsIgnoreCase("verbose"))
+			System.err.println(message);
+	}
 
 	public static String soapMessageToString(SOAPMessage message) {
 		String r = null;
@@ -61,7 +67,7 @@ public class Utils {
 	/**
 	 * Helper class, encapsulates url-post results.
 	 */
-	public static class PostResult {
+	protected static class PostResult {
 		private String reply;
 		private int responseCode;
 
@@ -143,6 +149,14 @@ public class Utils {
 			} catch (IOException e) {
 				/* empty */}
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <E> E[] prepend(E value, E[] values) {
+		E[] array = (E[]) Array.newInstance(value.getClass(), values.length + 1);
+		array[0] = value;
+		System.arraycopy(values, 0, array, 1, values.length);
+		return array;
 	}
 
 }
