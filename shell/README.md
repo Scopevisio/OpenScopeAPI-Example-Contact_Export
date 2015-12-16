@@ -4,5 +4,5 @@ Die Implementierung des Shell-Beispiels ist in der `example.sh` selbst dokumenti
 
 ### Aufruf des Code-Beispiels
 
-./example.sh 2000000 user@example.com password`
+`./example.sh 2000000 user@example.com password`
 
