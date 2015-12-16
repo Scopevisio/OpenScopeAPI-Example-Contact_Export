@@ -76,6 +76,9 @@ public class GetOrganisations {
 
         // post SOAP
         PostResult result = new URLPost().postSoap(url, request);
+        if (result.getResponseCode() != 200)
+        throw new Exception("Unexpected response, HTTP Status Code: " + result.getResponseCode()
+                    + ", Reason-Phrase: " + result.getReply());
         String reply = result.getReply();
         if (verbose)
             System.err.println("responseCode: " + result.getResponseCode() + ", reply: " + reply);
