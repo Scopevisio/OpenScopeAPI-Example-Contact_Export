@@ -29,6 +29,7 @@ POSSIBILITY OF SUCH DAMAGE.
  */
 package com.scopevisio.openscope;
 
+import java.util.Calendar;
 import java.util.StringTokenizer;
 
 import javax.xml.soap.MessageFactory;
@@ -138,8 +139,9 @@ public class Example {
 
 			// args/data tag
 			SOAPElement configElement = req.addChildElement("args");
-			long hundredDaysAgo = System.currentTimeMillis();
-			hundredDaysAgo -= 100 * 24 * 60 * 60 * 1000L;
+			Calendar calendar = Calendar.getInstance();
+			calendar.add(-100, Calendar.DAY_OF_MONTH);
+			long hundredDaysAgo = calendar.getTimeInMillis();
 			configElement.addChildElement("createdSinceTimestamp").setTextContent(Long.toString(hundredDaysAgo));
 
 			Utils.verbose(Utils.soapMessageToString(request));
