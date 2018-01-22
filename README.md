@@ -16,5 +16,5 @@ Dieses Beispiel wurde in Java, Bash und für das Web bereitgestellt. Die entspre
 
 ### Relevante API-Dokumentation
 
-- [API-Referenz](https://www.scopevisio.com/help/de/API/API_Reference)
-- [Export von Kontakten](https://www.scopevisio.com/help/de/API/Contact_Export)
+- [API-Referenz](https://openscope.de/api.html)
+- [Export von Kontakten](https://openscope.de/api.html#exportieren-von-kontakten)
